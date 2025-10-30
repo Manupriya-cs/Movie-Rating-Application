@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Edit Movie 🎬</title>
+<style>
+    /* Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: url("https://media.istockphoto.com/id/453554783/photo/empty-cinema-screen-with-audience.jpg?s=612x612&w=0&k=20&c=SbWVl54ZsqfxRblUeVfL7Zhk58WQRedJsCrssr1qJj0=") 
+            no-repeat center center/cover;
+        position: relative;
+        overflow: hidden;
+        color: #fff;
+    }
+
+    /* Dark overlay */
+    body::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 0, 25, 0.75);
+        backdrop-filter: blur(2px);
+        z-index: 1;
+    }
+
+    /* Floating glow particles */
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+        50% { transform: translateY(-15px) rotate(180deg); opacity: 1; }
+        100% { transform: translateY(0) rotate(360deg); opacity: 0.7; }
+    }
+
+    .particle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: rgba(255, 0, 255, 0.6);
+        border-radius: 50%;
+        animation: float 6s infinite ease-in-out;
+        filter: blur(2px);
+        z-index: 1;
+    }
+
+    .particle:nth-child(1) { top: 20%; left: 25%; animation-delay: 1s; }
+    .particle:nth-child(2) { top: 60%; left: 75%; animation-delay: 2s; background: #ff4de1; }
+    .particle:nth-child(3) { top: 80%; left: 10%; animation-delay: 3s; background: #d36aff; }
+    .particle:nth-child(4) { top: 40%; left: 50%; animation-delay: 1.5s; background: #ff89c9; }
+
+    /* Form container */
+    form {
+        position: relative;
+        z-index: 3;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 35px 45px;
+        border-radius: 25px;
+        box-shadow: 0 0 40px rgba(255, 0, 255, 0.3);
+        width: 100%;
+        max-width: 450px;
+        backdrop-filter: blur(10px);
+        transition: transform 0.6s ease;
+        animation: fadeIn 1.2s ease forwards;
+    }
+
+    form:hover {
+        transform: scale(1.03) rotateY(3deg);
+        box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2.3rem;
+        margin-bottom: 25px;
+        color: #ff66ff;
+        text-shadow: 0 0 10px #ff33cc, 0 0 25px rgba(255, 0, 255, 0.6);
+        animation: neonPulse 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes neonPulse {
+        from { text-shadow: 0 0 15px #ff33cc, 0 0 25px rgba(255, 0, 255, 0.5); }
+        to { text-shadow: 0 0 30px #ff66ff, 0 0 60px rgba(255, 0, 255, 0.8); }
+    }
+
+    label {
+        display: block;
+        margin-top: 14px;
+        font-weight: 600;
+        font-size: 1rem;
+        color: #ffd6ff;
+        letter-spacing: 0.5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px 14px;
+        margin-top: 6px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 10px #ff80ff;
+        transform: scale(1.02);
+    }
+
+    button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 12px 0;
+        border: 2px solid transparent;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        cursor: pointer;
+        background: linear-gradient(90deg, #9d50bb, #6e48aa);
+        color: #fff;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    button::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: all 0.5s;
+    }
+
+    button:hover::before {
+        left: 100%;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(255, 0, 255, 0.7);
+    }
+
+    @media (max-width: 500px) {
+        form {
+            padding: 25px;
+        }
+        h1 {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+</head>
+<body>
+
+<!-- Floating glow dots -->
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+
+<form th:action="@{/update}" th:object="${movie}" method="post">
+    <h1>Edit Movie 🎬</h1>
+    <input type="hidden" th:field="*{id}"/>
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" placeholder="Enter movie name"/>
+    <label>Image URL:</label>
+    <input type="text" th:field="*{image}" placeholder="Enter image URL"/>
+    <label>Trailer URL:</label>
+    <input type="text" th:field="*{trailer}" placeholder="Enter trailer URL"/>
+    <label>Rating:</label>
+    <input type="text" th:field="*{rating}" placeholder="Enter rating"/>
+    <button type="submit">Update Movie</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Movie Rating - Cinematic Vibe</title>
+<style>
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+  color: #fff;
+}
+
+/* Cinema Hall Background */
+body {
+  background: url("https://thumbs.dreamstime.com/b/large-movie-theater-full-audience-big-screen-people-seated-waiting-film-start-dominates-screening-entertainment-cinema-354574039.jpg")
+              no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Dark overlay for clarity */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 1;
+}
+
+/* Soft moving gradient light overlay */
+body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255,215,0,0.15), transparent 70%);
+  animation: lightMove 10s infinite alternate ease-in-out;
+  z-index: 2;
+}
+
+@keyframes lightMove {
+  0% { background-position: 30% 30%; opacity: 0.5; }
+  50% { background-position: 70% 70%; opacity: 0.8; }
+  100% { background-position: 30% 30%; opacity: 0.5; }
+}
+
+/* Curtains */
+.curtain {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  background: linear-gradient(90deg, #660000, #990000);
+  z-index: 3;
+  animation: openCurtain 3s ease-in-out forwards;
+}
+
+.curtain.left {
+  left: 0;
+  border-right: 2px solid gold;
+}
+
+.curtain.right {
+  right: 0;
+  border-left: 2px solid gold;
+}
+
+@keyframes openCurtain {
+  0% { width: 50%; }
+  100% { width: 0; }
+}
+
+/* Floating particles for cinematic dust effect */
+@keyframes floatParticles {
+  0% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(-30px); opacity: 0.9; }
+  100% { transform: translateY(0); opacity: 0.3; }
+}
+
+.particle {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: floatParticles 6s ease-in-out infinite;
+  z-index: 4;
+}
+
+.particle:nth-child(1) { width: 6px; height: 6px; top: 20%; left: 25%; animation-delay: 0s; }
+.particle:nth-child(2) { width: 10px; height: 10px; top: 60%; left: 70%; animation-delay: 1s; }
+.particle:nth-child(3) { width: 8px; height: 8px; top: 30%; left: 80%; animation-delay: 2s; }
+.particle:nth-child(4) { width: 12px; height: 12px; top: 70%; left: 40%; animation-delay: 3s; }
+.particle:nth-child(5) { width: 7px; height: 7px; top: 40%; left: 10%; animation-delay: 4s; }
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  animation: fadeIn 3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Title with neon flicker */
+h1 {
+  font-size: 4rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #f5c518;
+  margin-bottom: 50px;
+  text-shadow: 0 0 10px #f5c518, 0 0 25px #ffcc00, 0 0 40px rgba(255,215,0,0.8);
+  animation: flicker 3s infinite alternate;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.6; }
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.buttons a {
+  text-decoration: none;
+}
+
+.buttons button {
+  padding: 14px 40px;
+  font-size: 18px;
+  border: none;
+  border-radius: 35px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, #b30000, #ff3333);
+  box-shadow: 0 0 20px rgba(255,0,0,0.6);
+  transition: all 0.3s ease-in-out;
+  animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 10px rgba(255,0,0,0.5); transform: scale(1); }
+  100% { box-shadow: 0 0 25px rgba(255,0,0,0.9); transform: scale(1.1); }
+}
+
+.buttons button:hover {
+  background: linear-gradient(135deg, #ff3333, #ff6666);
+  transform: scale(1.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 { font-size: 2.6rem; }
+  .buttons button { font-size: 16px; padding: 12px 30px; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 2rem; }
+  .buttons { flex-direction: column; }
+  .buttons button { width: 75%; }
+}
+</style>
+</head>
+
+<body>
+  <!-- Floating particles -->
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+
+  <!-- Curtains -->
+  <div class="curtain left"></div>
+  <div class="curtain right"></div>
+
+  <!-- Main content -->
+  <div class="content">
+    <h1>🎬 Movie Rating</h1>
+    <div class="buttons">
+      <a href="insert"><button>➕ Add Movie</button></a>
+      <a href="view"><button>🎥 View Movies</button></a>
+    </div>
+  </div>
+</body>
+</html>
